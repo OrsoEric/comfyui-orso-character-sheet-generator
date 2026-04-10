@@ -9,8 +9,12 @@ from .lib.st_image import St_image
 
 from .lib.cl_generator import Cl_npc_character_sheet_generator
 
+import json
+
 class lib_torch:
     from torch import Tensor
+
+
 
 class Cl_orso_character_sheet_generator_comfyui_bindings:
     """
@@ -19,13 +23,23 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
 
     @classmethod
     def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "i_st_npc_illustration": {"image": ("IMAGE",)},
-                "i_d_npc_json": ("STRING", {"multiline": True}),        
-            }
+        d_input_definitions = {
+            "image": ("IMAGE",),
+            "i_s_npc_json": ("STRING", {"multiline": True}),
         }
 
+        d_optional = {
+            "i_ls_layout_file_path": ("layout/npc_layout_en.json",),
+            "i_ls_mask_front_path": ("mask/front_mask.png",),
+            "i_ls_mask_back_path": ("mask/back_mask.png",),
+        }
+
+
+        return {
+            "required": d_input_definitions,
+            "optional": d_optional,
+        }
+    
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("card_image",)
     FUNCTION = "generate"
@@ -33,42 +47,36 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
 
     def generate(
         self,
-        i_ast_npc_illustration: lib_torch.Tensor,
-        i_d_npc_json: dict,
+        image: lib_torch.Tensor,
+        i_s_npc_json: str,
+        i_ls_layout_file_path: str,
+        i_ls_mask_front_path: str,
+        i_ls_mask_back_path: str,
     ) -> Tuple[lib_torch.Tensor]:
     
         # --- Tensor → St_image ---
-        st_img = St_image.from_tensor(i_ast_npc_illustration[0], 300)
+        st_img = St_image.from_tensor( image[0], 300 )
 
-        i_ls_layout_file_path: List[str] = [""],
-        i_ls_mask_front_path: List[str],
-        i_ls_mask_back_path: List[str],
-
-        i_background_color: Optional[Tuple[int, int, int]] = None,
-        i_border_color: Optional[Tuple[int, int, int]] = None
-
-        # Convert optional colors
-        bg = self._parse_color(background_color)
-        border = self._parse_color(border_color)
-
-        # Instantiate your engine
-        generator = YourCardGeneratorClass()
-
-        # Call your existing method
-        success = generator.generate_card(
-            i_ls_layout_file_path=[layout_json],
-            i_ls_mask_front_path=[mask_front],
-            i_ls_mask_back_path=[mask_back],
-            i_ls_npc_illustration_path=[npc_image],
-            i_ls_npc_json_path=[npc_json],
-            i_ls_output_file_path=[output_path],
-            i_background_color=bg,
-            i_border_color=border
+        cl_generator = cl_generator = Cl_npc_character_sheet_generator(
+            i_w_card_width_mm=63.5,
+            i_h_card_height_mm=88.9,
+            i_n_dots_per_inch = 300,
+            i_background_color=(255, 255, 255),
+            i_border_color=(0, 0, 0)
         )
+ 
+        o_st_pil = cl_generator.generate_comfy_ui(
+            i_cl_npc_illustration=st_img,
+            i_d_npc_json=json.loads(i_s_npc_json),
+            
+            i_ls_layout_file_path = i_ls_layout_file_path,
+            i_ls_mask_front_path = i_ls_mask_front_path,
+            i_ls_mask_back_path= i_ls_mask_back_path,
+        )
+            
+        o_st_tensor = o_st_pil.to_tensor()
+        
+        return (o_st_tensor)
 
-        if success:
-            raise RuntimeError("Card generation failed inside generate_card().")
 
-        # Load the output image for ComfyUI
-        img = Image.open(output_path).convert("RGB")
-        return (comfy.utils.PIL_to_tensor(img),)
+
