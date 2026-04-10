@@ -1,0 +1,321 @@
+{
+    "text_boxes":
+    [
+        {
+            "s_name": "DESCRIPTION",
+            "s_text": "this is a long multiline description of the actor that can cover many topics like flavour, physical description, behaviour, habitat, history and myths.",
+            "w_top_left_ppt": 10,
+            "h_top_left_ppt": 25,
+            "w_size_ppt": 990,
+            "h_size_ppt": 150,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "RESOURCES",
+            "s_text": "this covers resources available to the entity",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 150,
+            "w_size_ppt": 250,
+            "h_size_ppt": 90,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "SPELLCASTING",
+            "s_text": "this covers damage resistencce, vulnerabilities and immunities",
+            "w_top_left_ppt": 650,
+            "h_top_left_ppt": 150,
+            "w_size_ppt": 350,
+            "h_size_ppt": 90,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "SPEED",
+            "s_text": "this speed with various means",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 180,
+            "w_size_ppt": 500,
+            "h_size_ppt": 0,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "IMMUNITY",
+            "s_text": "this covers damage resistencce, vulnerabilities and immunities",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 180,
+            "w_size_ppt": 550,
+            "h_size_ppt": 0,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "RESISTENCE",
+            "s_text": "this covers damage resistencce, vulnerabilities and immunities",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 230,
+            "w_size_ppt": 550,
+            "h_size_ppt": 0,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "WEAKNESS",
+            "s_text": "this covers damage resistencce, vulnerabilities and immunities",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 280,
+            "w_size_ppt": 550,
+            "h_size_ppt": 0,
+            "h_font_ppt": 18
+        }
+    ],
+
+    "attributes_and_abilities":
+    [
+        {
+            "s_name": "PROFICIENCY",
+            "w_pos_ppt": 80,
+            "h_pos_ppt": 160,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "INITIATIVE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 27,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "STRENGTH",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 45,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "STR SAVE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "ATHLETICS",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "DEXTERITY",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 38,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "DEX SAVE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "ACROBATICS",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "SLEIGHT OF HAND",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "STEALTH",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "CONSTITUTION",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 38,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "CON SAVE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "INTELLIGENCE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 36,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "INT SAVE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "ARCANA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "INVESTIGATION",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "HISTORY",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "NATURE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "RELIGION",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "WISDOM",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 35,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "WIS SAVE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "ANIMAL HANDLING",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "INSIGHT",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "PERCEPTION",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "MEDICINE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "SURVIVAL",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "CHARISMA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 38,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "CHA SAVE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "DECEPTION",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "INTIMIDATION",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "PERFORMANCE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "PERSUASION",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        }
+    ],
+
+    "ACTIONS": {
+        "s_name": "ACTIONS",
+        "s_text": "this covers active and passives, height is adaptive based on previous ability lines",
+        "h_font_title_ppt": 25,
+        "h_font_body_ppt": 20,
+        "h_font_flavor_text_ppt": 15
+    },
+
+    "FRONT_TEXT_BOXES":
+    [
+        {
+            "s_name": "NAME",
+            "s_text": "this text box holds the NPC name",
+            "w_top_left_ppt": 75,
+            "h_top_left_ppt": 25,
+            "w_size_ppt": 900,
+            "h_size_ppt": 100,
+            "h_font_ppt": 40
+        },
+        {
+            "s_name": "RACE",
+            "s_text": "this text box holds the NPC species, class, rank",
+            "w_top_left_ppt": 75,
+            "h_top_left_ppt": 96,
+            "w_size_ppt": 900,
+            "h_size_ppt": 50,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "CR",
+            "s_text": "this holds the Challenge Rating of the NPC",
+            "w_top_left_ppt": 840,
+            "h_top_left_ppt": 17,
+            "w_size_ppt": 125,
+            "h_size_ppt": 70,
+            "h_font_ppt": 40
+        },
+        {
+            "s_name": "AC",
+            "s_text": "this holds the Armor class of the character",
+            "w_top_left_ppt": 52,
+            "h_top_left_ppt": 870,
+            "w_size_ppt": 125,
+            "h_size_ppt": 100,
+            "h_font_ppt": 60
+        },
+        {
+            "s_name": "HP",
+            "s_text": "this holds the Health of the character",
+            "w_top_left_ppt": 840,
+            "h_top_left_ppt": 870,
+            "w_size_ppt": 100,
+            "h_size_ppt": 100,
+            "h_font_ppt": 60
+        }
+    ]
+}

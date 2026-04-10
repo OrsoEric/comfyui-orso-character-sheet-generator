@@ -1,0 +1,321 @@
+{
+    "text_boxes":
+    [
+        {
+            "s_name": "DESCRIZIONE",
+            "s_text": "questa è una lunga descrizione multiriga dell'attore che può coprire molti argomenti come gusto, descrizione fisica, comportamento, habitat, storia e miti.",
+            "w_top_left_ppt": 10,
+            "h_top_left_ppt": 25,
+            "w_size_ppt": 990,
+            "h_size_ppt": 150,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "RISORSE",
+            "s_text": "questo copre le risorse disponibili per l'entità",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 150,
+            "w_size_ppt": 250,
+            "h_size_ppt": 90,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "LANCIO DI INCANTESIMI",
+            "s_text": "questo copre resistenza ai danni, vulnerabilità e immunità",
+            "w_top_left_ppt": 650,
+            "h_top_left_ppt": 150,
+            "w_size_ppt": 350,
+            "h_size_ppt": 90,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "VELOCITÀ",
+            "s_text": "questa velocità con vari mezzi",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 180,
+            "w_size_ppt": 500,
+            "h_size_ppt": 0,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "IMMUNITÀ",
+            "s_text": "questo copre resistenza ai danni, vulnerabilità e immunità",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 180,
+            "w_size_ppt": 550,
+            "h_size_ppt": 0,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "RESISTENZA",
+            "s_text": "questo copre resistenza ai danni, vulnerabilità e immunità",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 230,
+            "w_size_ppt": 550,
+            "h_size_ppt": 0,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "DEBOLEZZA",
+            "s_text": "questo copre resistenza ai danni, vulnerabilità e immunità",
+            "w_top_left_ppt": 400,
+            "h_top_left_ppt": 280,
+            "w_size_ppt": 550,
+            "h_size_ppt": 0,
+            "h_font_ppt": 18
+        }
+    ],
+
+    "attributes_and_abilities":
+    [
+        {
+            "s_name": "PROFICIENZA",
+            "w_pos_ppt": 80,
+            "h_pos_ppt": 160,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "INIZIATIVA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 27,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "FORZA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 45,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "Salvataggio di Forza",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "ATLETICA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "DESTREZZA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 38,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "Salvataggio di Destrezza",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Acrobazia",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Maestria delle Mani",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Furtività",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "CONSTITUZIONE",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 38,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "Salvataggio di Costituzione",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "INTELLIGENZA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 36,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "Salvataggio di Intelligenza",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Arcana",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Indagine",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Storia",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Natura",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Religione",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "SAGGEZZA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 35,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "Salvataggio di Saggezza",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Gestione degli Animali",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Intuizione",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Percezione",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Medicina",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Sopravvivenza",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "CARISMA",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 38,
+            "h_font_ppt": 23
+        },
+        {
+            "s_name": "Salvataggio di Carisma",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 24,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Inganno",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Intimidazione",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Performance",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "Persuasione",
+            "w_pos_ppt": 0,
+            "h_pos_ppt": 22,
+            "h_font_ppt": 18
+        }
+    ],
+
+    "ACTIONS": {
+        "s_name": "AZIONI",
+        "s_text": "questo copre attivi e passivi, l'altezza è adattiva in base alle linee di abilità precedenti",
+        "h_font_title_ppt": 25,
+        "h_font_body_ppt": 20,
+        "h_font_flavor_text_ppt": 15
+    },
+
+    "FRONT_TEXT_BOXES":
+    [
+        {
+            "s_name": "NOME",
+            "s_text": "questa casella di testo contiene il nome del NPC",
+            "w_top_left_ppt": 75,
+            "h_top_left_ppt": 25,
+            "w_size_ppt": 900,
+            "h_size_ppt": 100,
+            "h_font_ppt": 40
+        },
+        {
+            "s_name": "RAZZA",
+            "s_text": "questa casella di testo contiene la specie, classe e rango del NPC",
+            "w_top_left_ppt": 120,
+            "h_top_left_ppt": 96,
+            "w_size_ppt": 900,
+            "h_size_ppt": 50,
+            "h_font_ppt": 18
+        },
+        {
+            "s_name": "CR",
+            "s_text": "questo indica il punteggio di sfida del NPC",
+            "w_top_left_ppt": 840,
+            "h_top_left_ppt": 17,
+            "w_size_ppt": 125,
+            "h_size_ppt": 70,
+            "h_font_ppt": 40
+        },
+        {
+            "s_name": "CA",
+            "s_text": "questo indica la Classe Armatura del personaggio",
+            "w_top_left_ppt": 52,
+            "h_top_left_ppt": 870,
+            "w_size_ppt": 125,
+            "h_size_ppt": 100,
+            "h_font_ppt": 60
+        },
+        {
+            "s_name": "PV",
+            "s_text": "questo indica i Punti Salute del personaggio",
+            "w_top_left_ppt": 840,
+            "h_top_left_ppt": 870,
+            "w_size_ppt": 100,
+            "h_size_ppt": 100,
+            "h_font_ppt": 60
+        }
+    ]
+}
