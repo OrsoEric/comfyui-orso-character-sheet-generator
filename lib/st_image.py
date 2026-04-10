@@ -13,10 +13,15 @@ public API only exposes behaviour, not internal data.
 
 import logging
 
-from lib.cl_utility_path import convert_to_path
+from .cl_utility_path import convert_to_path
 import PIL.Image
 
 from pathlib import Path
+
+class lib_torch:
+    from torch import Tensor
+    
+from .cl_pil_tensor_convert import Cl_pil_tensor_convert
 
 # --------------------------------------------------------------------------- #
 # CLASS DEFINITION
@@ -342,6 +347,69 @@ class St_image:
         )
 
         return False #OK
+
+    # ----------------------------------------------------------------------- #
+    # ComfyUI Tensor
+    # ----------------------------------------------------------------------- #
+    
+    @classmethod
+    def from_tensor(
+        cls,
+        i_st_tensor: lib_torch.Tensor,
+        i_dot_per_inch: int
+    ):
+        """
+        Construct a new St_image from a tensor (H, W, C) in [0,1].
+
+        - Computes the physical size in millimetres from pixel size and DPI.
+        - Creates a fully configured St_image instance.
+        - Stores the tensor's pixel data WITHOUT resizing.
+
+        Returns:
+            St_image
+        """
+
+        # Extract pixel dimensions
+        h_px, w_px, _ = i_st_tensor.shape
+
+        # Convert px → mm
+        mm_per_inch = 25.4
+        w_mm = w_px / i_dot_per_inch * mm_per_inch
+        h_mm = h_px / i_dot_per_inch * mm_per_inch
+
+        # Create a new St_image with correct physical dimensions
+        st = cls(
+            i_w_card_mm=w_mm,
+            i_h_card_mm=h_mm,
+            i_dot_per_inch=i_dot_per_inch
+        )
+
+        # Directly store the tensor as a PIL image (NO resizing)
+        st.g_cl_image = Cl_pil_tensor_convert.tensor_to_pil(i_st_tensor)
+
+        return st
+
+
+    def to_tensor(
+        self
+    ) -> lib_torch.Tensor:
+        """
+        Convert the current image into a tensor (H, W, C) in range [0,1].
+
+        Returns:
+            Tensor if image exists, None otherwise.
+        """
+        if self.g_cl_image is None:
+            logging.error("No image available to convert to tensor.")
+            return None
+
+        try:
+            return Cl_pil_tensor_convert.pil_to_tensor(self.g_cl_image)
+
+        except Exception as exc:
+            logging.exception("Failed to convert image to tensor: %s", exc)
+            return None
+
 
     # ----------------------------------------------------------------------- #
     # REPRESENTATION HELPERS (optional)

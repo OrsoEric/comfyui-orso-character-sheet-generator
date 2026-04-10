@@ -10,7 +10,7 @@ import json
 from typing import Any, Dict
 from pathlib import Path
 
-from lib.cl_utility_path import convert_to_path
+from .cl_utility_path import convert_to_path
 
 
 class Cl_npc:

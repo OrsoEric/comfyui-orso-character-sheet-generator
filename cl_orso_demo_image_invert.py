@@ -1,49 +1,71 @@
 # custom_nodes/cl_orso_demo_image_invert.py
 
-import torch
+from typing import Tuple
+#from .lib.cl_pil_tensor_convert import Cl_pil_tensor_convert
+from .lib.st_image import St_image 
+
+class lib_torch:
+    from torch import Tensor
+    
+class lib_pil:
+    from PIL import Image
+    from PIL.ImageOps import invert
 
 class Cl_orso_demo_image_invert:
     """
-    A tiny ComfyUI node that takes an image tensor, inverts every pixel,
-    and emits the inverted image.
+    A ComfyUI node that takes an image tensor, converts it to St_image,
+    inverts pixels using St_image logic (no PIL), and returns the result.
     """
 
     @classmethod
-    def INPUT_TYPES(s):
-        """Define the inputs that the UI will present.
-
-        - `image`: a tensor of shape (batch, channels, height, width)
-          with values in [0.0, 1.0].
-        """
+    def INPUT_TYPES(cls):
         return {
             "required": {"image": ("IMAGE",)},
         }
 
-    # The node produces one output: an inverted image.
     RETURN_TYPES = ("IMAGE",)
-
-    # This string tells ComfyUI which function to call when the node
-    # is executed.
     FUNCTION = "invert"
-
-    # Optional: group the node under a custom category in the sidebar.
-    CATEGORY = "orso/utils"
-
-    def invert(self, image):
+    CATEGORY = "orso"
+    
+    def invert(self, image: lib_torch.Tensor):
         """
-        Invert an RGB (or RGBA) image.
+        Invert an RGB(A) image using PIL through St_image.
 
-        Parameters:
-            image (torch.Tensor): Input image tensor in [0.0, 1.0].
+        Input:
+            image: Tensor (B, H, W, C) in [0,1]
 
-        Returns:
-            tuple: A single-element tuple containing the inverted image.
+        Output:
+            (inverted_tensor,)
         """
-        # Guard against non‑float tensors or values outside [0,1]
-        if not isinstance(image, torch.Tensor):
+
+        if not hasattr(image, "shape"):
             raise TypeError("Input 'image' must be a torch.Tensor.")
 
-        # Clip to avoid numerical issues and perform inversion
-        inv = 1.0 - torch.clamp(image, 0.0, 1.0)
+        # Ensure float and clamp
+        image = image.float().clamp(0.0, 1.0)
 
-        return (inv,)
+        batch, height, width, channels = image.shape
+        out = image.clone()
+
+        for n_index_batch in range(batch):
+            hwc = image[n_index_batch]  # (H, W, C)
+
+            # --- Tensor → St_image ---
+            st_img = St_image.from_tensor(hwc, 300)
+
+            # --- PIL inversion ---
+            pil_img = st_img.g_cl_image
+
+            if pil_img.mode == "RGBA":
+                r, g, b, a = pil_img.split()
+                rgb = lib_pil.Image.merge("RGB", (r, g, b))
+                rgb_inv = lib_pil.invert(rgb)
+                r_i, g_i, b_i = rgb_inv.split()
+                st_img.g_cl_image = lib_pil.Image.merge("RGBA", (r_i, g_i, b_i, a))
+            else:
+                st_img.g_cl_image = lib_pil.invert(pil_img)
+
+            # --- St_image → Tensor ---
+            out[n_index_batch] = st_img.to_tensor()
+
+        return (out,)

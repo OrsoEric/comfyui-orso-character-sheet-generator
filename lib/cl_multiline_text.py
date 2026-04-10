@@ -8,7 +8,7 @@ import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
 from typing import List
-from lib.cl_utility_path import convert_to_path
+from .cl_utility_path import convert_to_path
 
 # ------------------------------------------------------------------
 #  Multiline Text Utility Class

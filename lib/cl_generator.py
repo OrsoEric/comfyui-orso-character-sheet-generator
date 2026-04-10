@@ -17,17 +17,17 @@ import PIL.Image as image
 import PIL.ImageDraw as draw
 import PIL.ImageFont as font
 
-from lib.cl_utility_path import convert_to_path
+from .cl_utility_path import convert_to_path
 #from lib.st_attribute_ability import St_attribute_ability
-from lib.st_image import St_image
+from .st_image import St_image
 #this utility allows to draw a multiline text box onto an image
-from lib.cl_multiline_text import Cl_multiline_text
+from .cl_multiline_text import Cl_multiline_text
 #load the individual NPC stats
-from lib.cl_npc import Cl_npc
+from .cl_npc import Cl_npc
 
-from lib.cl_utility_path import find_file_pair_image_json
+from .cl_utility_path import find_file_pair_image_json
 
-from lib.cl_utility_path import build_path_output_jpg
+from .cl_utility_path import build_path_output_jpg
 
 class Cl_npc_character_sheet_generator:
     """
@@ -688,6 +688,123 @@ class Cl_npc_character_sheet_generator:
         
         return False #OK
     
+    def generate_comfy_ui(
+        self,
+        i_cl_npc_illustration: St_image,
+        i_d_npc_json: dict,
+
+        i_ls_layout_file_path: List[str],
+        i_ls_mask_front_path: List[str],
+        i_ls_mask_back_path: List[str],
+
+        i_background_color: Optional[Tuple[int, int, int]] = None,
+        i_border_color: Optional[Tuple[int, int, int]] = None
+    ) -> St_image:
+        """
+        Generate a combined front/back card image using already-loaded
+        NPC illustration and NPC JSON data (for ComfyUI pipelines).
+
+        Parameters
+        ----------
+        i_cl_npc_illustration : St_image
+            Already-loaded NPC illustration image.
+        i_d_npc_json : dict
+            NPC data already loaded (instead of loading from file).
+        i_ls_layout_file_path : list[str]
+            Path components to the JSON layout file.
+        i_ls_mask_front_path : list[str]
+            Path to the front mask image.
+        i_ls_mask_back_path : list[str]
+            Path to the back mask image.
+
+        Returns
+        -------
+        St_image
+            The final combined card image (front + back).
+        """
+
+        # SIZE of the image
+        t_size_front = self.g_cl_image_card_back.get_size()
+
+        #----------------------------------------------------------------------
+        #   LOAD JSON LAYOUT
+        #----------------------------------------------------------------------
+        st_layout = self.load_layout_from_json(convert_to_path(i_ls_layout_file_path))
+
+        #----------------------------------------------------------------------
+        #   LOAD NPC DATA (already provided)
+        #----------------------------------------------------------------------
+        cl_npc = Cl_npc()
+        cl_npc.g_d_npc = i_d_npc_json
+        logging.debug(f"Loaded NPC from dict: {cl_npc}")
+
+        #----------------------------------------------------------------------
+        #   DRAW: FRONT ILLUSTRATION
+        #----------------------------------------------------------------------
+        self.g_cl_image_card_front.draw_image(i_cl_npc_illustration, (0, 0), t_size_front)
+
+        #----------------------------------------------------------------------
+        #   DRAW: FRONT MASK
+        #----------------------------------------------------------------------
+        cl_front_mask = St_image(
+            i_w_card_mm=self.g_w_card_width_mm,
+            i_h_card_mm=self.g_h_card_height_mm,
+            i_dot_per_inch=self.g_n_dots_per_inch
+        )
+        cl_front_mask.load_image(i_ls_mask_front_path)
+        self.g_cl_image_card_front.compose_image(cl_front_mask, 0.6)
+
+        #----------------------------------------------------------------------
+        #   DRAW: BACK MASK
+        #----------------------------------------------------------------------
+        cl_back_mask = St_image(
+            i_w_card_mm=self.g_w_card_width_mm,
+            i_h_card_mm=self.g_h_card_height_mm,
+            i_dot_per_inch=self.g_n_dots_per_inch
+        )
+        cl_back_mask.load_image(i_ls_mask_back_path)
+        self.g_cl_image_card_back.compose_image(cl_back_mask, 1.0)
+
+        #----------------------------------------------------------------------
+        #   DRAW: FRONT TEXT
+        #----------------------------------------------------------------------
+        if self.load_values_front_from_npc_dict(st_layout, cl_npc.g_d_npc):
+            logging.error("Failed to load NPC values into FRONT layout.")
+            return None
+
+        if self.draw_layout_front_to_image(st_layout, self.g_cl_image_card_front):
+            logging.error("Failed to draw FRONT layout.")
+            return None
+
+        #----------------------------------------------------------------------
+        #   DRAW: BACK TEXT
+        #----------------------------------------------------------------------
+        if self.load_values_back_from_npc_dict(st_layout, cl_npc.g_d_npc):
+            logging.error("Failed to load NPC values into BACK layout.")
+            return None
+
+        if self.draw_layout_back_to_image(st_layout, self.g_cl_image_card_back):
+            logging.error("Failed to draw BACK layout.")
+            return None
+
+        #----------------------------------------------------------------------
+        #   COMBINE FRONT + BACK
+        #----------------------------------------------------------------------
+        t_size_back = self.g_cl_image_card_back.get_size()
+
+        self.g_cl_image_card.draw_image(self.g_cl_image_card_front, (0, 0), t_size_front)
+        self.g_cl_image_card.draw_image(self.g_cl_image_card_back, (t_size_back[0], 0), t_size_back)
+
+        cl_draw = draw.Draw(self.g_cl_image_card.g_cl_image)
+        cl_draw.line(
+            xy=((t_size_back[0], 0), (t_size_back[0], t_size_back[1])),
+            fill=(0, 0, 0),
+            width=4
+        )
+
+        # Return the final image instead of saving it
+        return self.g_cl_image_card
+
     @staticmethod
     def find_and_generate_cards(
         #card layout descriptor
