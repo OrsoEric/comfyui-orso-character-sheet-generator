@@ -1,4 +1,4 @@
-# custom_nodes/orso_image_inversion.py
+# custom_nodes/cl_orso_demo_image_invert.py
 
 import torch
 

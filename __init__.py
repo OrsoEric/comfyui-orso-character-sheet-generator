@@ -1,11 +1,13 @@
-from cl_orso_demo_image_invert import Cl_orso_demo_image_invert
+# __init__.py
+
+from .cl_orso_demo_image_invert import Cl_orso_demo_image_invert
 
 NODE_CLASS_MAPPINGS = {
-    "orso-demo-image-invert": Cl_orso_demo_image_invert,
+    "Cl_orso_demo_image_invert": Cl_orso_demo_image_invert,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "orso-demo-image-invert": "DEMO Image Inversion",
+    "Cl_orso_demo_image_invert": "DEMO Image Inversion",
 }
 
-EXTENSION_NAME = "ComfyLiterals"
+EXTENSION_NAME = "Orso"
