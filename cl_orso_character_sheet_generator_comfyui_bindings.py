@@ -26,18 +26,16 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
         d_input_definitions = {
             "image": ("IMAGE",),
             "i_s_npc_json": ("STRING", {"multiline": True}),
+            "i_ls_layout_file_path": ("STRING", {"multiline": False, "default": "custom_nodes/comfyui-orso-character-sheet-generator/layout/npc_layout_en.json"}),
+            "i_ls_mask_front_path": ("STRING", {"multiline": False, "default": "custom_nodes/comfyui-orso-character-sheet-generator/mask/front_mask.png"}),
+            "i_ls_mask_back_path": ("STRING", {"multiline": False, "default": "custom_nodes/comfyui-orso-character-sheet-generator/mask/back_mask.png"}),
         }
 
-        d_optional = {
-            "i_ls_layout_file_path": ("layout/npc_layout_en.json",),
-            "i_ls_mask_front_path": ("mask/front_mask.png",),
-            "i_ls_mask_back_path": ("mask/back_mask.png",),
-        }
-
+        #d_optional = {}
 
         return {
             "required": d_input_definitions,
-            "optional": d_optional,
+            #"optional": d_optional,
         }
     
     RETURN_TYPES = ("IMAGE",)
@@ -56,15 +54,17 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
     
         # --- Tensor → St_image ---
         st_img = St_image.from_tensor( image[0], 300 )
-
+        print(f"Loading NPC image: {st_img}")
+        
         cl_generator = cl_generator = Cl_npc_character_sheet_generator(
             i_w_card_width_mm=63.5,
             i_h_card_height_mm=88.9,
             i_n_dots_per_inch = 300,
+            i_s_comfy_root = "custom_nodes/comfyui-orso-character-sheet-generator",
             i_background_color=(255, 255, 255),
             i_border_color=(0, 0, 0)
         )
- 
+        
         o_st_pil = cl_generator.generate_comfy_ui(
             i_cl_npc_illustration=st_img,
             i_d_npc_json=json.loads(i_s_npc_json),
@@ -73,10 +73,11 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
             i_ls_mask_front_path = i_ls_mask_front_path,
             i_ls_mask_back_path= i_ls_mask_back_path,
         )
+        print(f"Generated NPC Character SHeet Image: {o_st_pil}")
             
-        o_st_tensor = o_st_pil.to_tensor()
+        o_st_tensor = tuple( o_st_pil.to_tensor() )
         
-        return (o_st_tensor)
+        return (o_st_tensor,)
 
 
 

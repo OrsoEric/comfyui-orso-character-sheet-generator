@@ -32,4 +32,6 @@ class Cl_pil_tensor_convert:
         # (C, H, W) -> (H, W, C)
         hwc = chw.permute(1, 2, 0).contiguous()
 
+        print(f"to_tensor || Type: {type(hwc)} | Shape: {hwc.shape} | Dimensions: {hwc.ndim}")
+    
         return hwc

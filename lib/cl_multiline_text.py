@@ -265,7 +265,12 @@ class Cl_multiline_text:
         ) -> int:
 
         cl_draw: ImageDraw.Draw = ImageDraw.Draw(i_cl_imgage)
-        st_font = ImageFont.truetype(i_s_font_name, i_n_font_size)
+        
+        try:
+            st_font = ImageFont.truetype(i_s_font_name, i_n_font_size)
+        except Exception as e:
+            print(f"ERR: failed to load font {i_s_font_name} size {i_n_font_size}")
+            return -1
 
         # Adaptive height if requested
         x_adaptive_height = (i_h_border <= 0)

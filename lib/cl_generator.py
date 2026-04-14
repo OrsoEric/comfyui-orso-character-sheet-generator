@@ -47,6 +47,7 @@ class Cl_npc_character_sheet_generator:
         i_w_card_width_mm: float,
         i_h_card_height_mm: float,
         i_n_dots_per_inch : int,
+        i_s_comfy_root : str,
         i_background_color: Optional[Tuple[int, int, int]] = None,
         i_border_color: Optional[Tuple[int, int, int]] = None
     ):
@@ -68,6 +69,8 @@ class Cl_npc_character_sheet_generator:
         self.g_w_card_width_mm: float = i_w_card_width_mm
         self.g_h_card_height_mm: float = i_h_card_height_mm
         self.g_n_dots_per_inch: int = i_n_dots_per_inch
+        #root of the comfyi extension
+        self.g_s_comfy_root = Path( i_s_comfy_root )
 
         self.g_tn_background_color: Tuple[int, int, int] = (
             i_background_color or self.CN_DEFAULT_BACKGROUND_COLOR
@@ -95,7 +98,8 @@ class Cl_npc_character_sheet_generator:
             i_dot_per_inch = self.g_n_dots_per_inch
         )
 
-        self.s_font_bold_path = convert_to_path(["src", "font","CormorantGaramond-BoldItalic.ttf"])
+        self.s_font_bold_path = self.g_s_comfy_root / convert_to_path(["font","CormorantGaramond-BoldItalic.ttf"])
+        print(f"loading font from node font folder: >{self.s_font_bold_path}<")
 
         self.g_t_stroke = (200,200,250)
 
