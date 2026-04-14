@@ -14,7 +14,8 @@ import json
 class lib_torch:
     from torch import Tensor
 
-
+#category in ComfyUI where the nodes are displayed
+C_S_CATEGORY = "dnd5e-orso"
 
 class Cl_orso_character_sheet_generator_comfyui_bindings:
     """
@@ -24,6 +25,9 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
     @classmethod
     def INPUT_TYPES(cls):
         d_input_definitions = {
+            "i_w_card_width_mm" : ("FLOAT", {"default": 63.5, "min": 0.0 }),
+            "i_h_card_height_mm" : ("FLOAT", {"default": 88.9, "min": 0.0 }),
+            "i_n_dots_per_inch": ("INT", {"default": 300, "min": 1, "step": 50}),
             "image": ("IMAGE",),
             "i_s_npc_json": ("STRING", {"multiline": True}),
             "i_ls_layout_file_path": ("STRING", {"multiline": False, "default": "custom_nodes/comfyui-orso-character-sheet-generator/layout/npc_layout_en.json"}),
@@ -41,10 +45,13 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("card_image",)
     FUNCTION = "generate"
-    CATEGORY = "orso"
+    CATEGORY = C_S_CATEGORY
 
     def generate(
         self,
+        i_w_card_width_mm : float,
+        i_h_card_height_mm : float,
+        i_n_dots_per_inch : int, 
         image: lib_torch.Tensor,
         i_s_npc_json: str,
         i_ls_layout_file_path: str,
@@ -57,9 +64,9 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
         print(f"Loading NPC image: {st_img}")
         
         cl_generator = cl_generator = Cl_npc_character_sheet_generator(
-            i_w_card_width_mm=63.5,
-            i_h_card_height_mm=88.9,
-            i_n_dots_per_inch = 300,
+            i_w_card_width_mm=i_w_card_width_mm,
+            i_h_card_height_mm=i_h_card_height_mm,
+            i_n_dots_per_inch = i_n_dots_per_inch,
             i_s_comfy_root = "custom_nodes/comfyui-orso-character-sheet-generator",
             i_background_color=(255, 255, 255),
             i_border_color=(0, 0, 0)
@@ -75,9 +82,223 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
         )
         print(f"Generated NPC Character SHeet Image: {o_st_pil}")
             
-        o_st_tensor = tuple( o_st_pil.to_tensor() )
+        o_st_tensor : lib_torch.Tensor = o_st_pil.to_tensor()
+        #add an extra batch dimension at the beginning
+        o_st_tensor = o_st_tensor.unsqueeze(0)
+        print(f"Character Sheet Tensor Shape: {o_st_tensor.shape}") 
         
         return (o_st_tensor,)
 
+class Cl_npc_json:
+    @classmethod
+    def INPUT_TYPES(cls):
+        d_required = {
+            # Core identity
+            "name": ("STRING", {"default": "Garetto Von Garra"}),
+            "race": ("STRING", {"default": "Human Fallen Noble (Major)"}),
+
+            # Stats
+            "cr": ("STRING", {"default": "1/2"}),
+            "hp": ("INT", {"default": 20, "min": 1, "max": 999}),
+            "ac": ("INT", {"default": 12, "min": 0, "max": 50}),
+            "speed": ("STRING", {"default": "Walk: 6[SQ]"}),
+
+            # Description & flavor
+            "image_prompt": ("STRING", {"multiline": True, "default": ""}),
+            "description": ("STRING", {"multiline": True, "default": ""}),
+
+            "resources": ("STRING", {"multiline": True, "default": "Actions: 1\nBonus Actions: 1\nReactions: 1\nLegendary Actions: 1"}),
+
+            "spellcasting": ("STRING", {"multiline": True, "default": "Spell Ability: INT\nSpell List: Wizard\nSpell MOD: +4\nSpell Save DC: 16Spell Slots: 4 | 2 | 1"}),
+
+            # Combat traits
+            "immunity": ("STRING", {"default": "charm"}),
+            "resistance": ("STRING", {"default": "Pierce"}),
+            "weakness": ("STRING", {"default": "Blunt, Fire"}),
+
+            # Meta
+            "proficiency": ("INT", {"default": 3, "min": -10, "max": 10}),
+            "initiative": ("INT", {"default": -1, "min": -10, "max": 10}),
+
+            # --- STRENGTH ---
+            "str_sep": ("STRING", {"default": "====== STRENGTH ======", "multiline": False}),
+            "STRENGTH": ("INT", {"default": -1, "min": -10, "max": 10}),
+            "STR SAVE": ("INT", {"default": -1, "min": -10, "max": 10}),
+            "ATHLETICS": ("INT", {"default": -2, "min": -10, "max": 20}),
+
+            # --- DEXTERITY ---
+            "dex_sep": ("STRING", {"default": "====== DEXTERITY ======", "multiline": False}),
+            "DEXTERITY": ("INT", {"default": -1, "min": -10, "max": 10}),
+            "DEX SAVE": ("INT", {"default": -1, "min": -10, "max": 10}),
+            "ACROBATICS": ("INT", {"default": -1, "min": -10, "max": 20}),
+            "SLEIGHT OF HAND": ("INT", {"default": 0, "min": -10, "max": 20}),
+            "STEALTH": ("INT", {"default": -1, "min": -10, "max": 20}),
+
+            # --- CONSTITUTION ---
+            "con_sep": ("STRING", {"default": "====== CONSTITUTION ======", "multiline": False}),
+            "CONSTITUTION": ("INT", {"default": -1, "min": -10, "max": 10}),
+            "CON SAVE": ("INT", {"default": -1, "min": -10, "max": 10}),
+
+            # --- INTELLIGENCE ---
+            "int_sep": ("STRING", {"default": "====== INTELLIGENCE ======", "multiline": False}),
+            "INTELLIGENCE": ("INT", {"default": 2, "min": -10, "max": 10}),
+            "INT SAVE": ("INT", {"default": 2, "min": -10, "max": 10}),
+            "ARCANA": ("INT", {"default": 5, "min": -10, "max": 20}),
+            "INVESTIGATION": ("INT", {"default": 2, "min": -10, "max": 20}),
+            "HISTORY": ("INT", {"default": 5, "min": -10, "max": 20}),
+            "NATURE": ("INT", {"default": 2, "min": -10, "max": 20}),
+            "RELIGION": ("INT", {"default": 2, "min": -10, "max": 20}),
+
+            # --- WISDOM ---
+            "wis_sep": ("STRING", {"default": "====== WISDOM ======", "multiline": False}),
+            "WISDOM": ("INT", {"default": 1, "min": -10, "max": 10}),
+            "WIS SAVE": ("INT", {"default": 2, "min": -10, "max": 10}),
+            "ANIMAL HANDLING": ("INT", {"default": 4, "min": -10, "max": 20}),
+            "INSIGHT": ("INT", {"default": 1, "min": -10, "max": 20}),
+            "PERCEPTION": ("INT", {"default": -1, "min": -10, "max": 20}),
+            "MEDICINE": ("INT", {"default": 0, "min": -10, "max": 20}),
+            "SURVIVAL": ("INT", {"default": 1, "min": -10, "max": 20}),
+
+            # --- CHARISMA ---
+            "cha_sep": ("STRING", {"default": "====== CHARISMA ======", "multiline": False}),
+            "CHARISMA": ("INT", {"default": 2, "min": -10, "max": 10}),
+            "CHA SAVE": ("INT", {"default": 5, "min": -10, "max": 10}),
+            "DECEPTION": ("INT", {"default": 5, "min": -10, "max": 20}),
+            "INTIMIDATION": ("INT", {"default": 5, "min": -10, "max": 20}),
+            "PERFORMANCE": ("INT", {"default": 2, "min": -10, "max": 20}),
+            "PERSUASION": ("INT", {"default": 2, "min": -10, "max": 20}),
+        }
+
+        d_optional = {
+            "ability": ("STRING",),
+        }
+
+        return {
+            "required": d_required,
+            "optional": d_optional
+        }
+
+    RETURN_TYPES = ("STRING",)
+    FUNCTION = "generate_json"
+    CATEGORY = C_S_CATEGORY
+
+    def generate_json(self, **kwargs):
+        
+        i_s_ability = kwargs["ability"]
+
+        # If no input, start new list
+        if i_s_ability is None or i_s_ability == "":
+            ability = []
+        else:
+            try:
+                ability = json.loads(i_s_ability)
+            except:
+                ability = []
 
 
+        data = {
+            "system": "DnD5E",
+            "actor": "NPC",
+            
+            "NAME": kwargs["name"],
+            "RACE": kwargs["race"],
+
+            "CR": kwargs["cr"],
+            "HP": str(kwargs["hp"]),
+            "AC": str(kwargs["ac"]),
+            "SPEED": f"SPEED: {kwargs['speed']}",
+
+            "IMAGE PROMPT": kwargs["image_prompt"],
+            "DESCRIPTION": kwargs["description"],
+
+            "RESOURCES": f"{kwargs['resources']}",
+
+            "IMMUNITY": f"IMMUNITY: {kwargs['immunity']}",
+            "RESISTENCE": f"RESISTENCE: {kwargs['resistance']}",
+            "WEAKNESS": f"WEAKNESS: {kwargs['weakness']}",
+            
+            "SPELLCASTING": f"{kwargs['spellcasting']}",
+
+            "PROFICIENCY": kwargs["proficiency"],
+            
+            "INITIATIVE": kwargs["initiative"],
+
+            "STRENGTH": kwargs["STRENGTH"],
+            "STR SAVE": kwargs["STR SAVE"],
+            "ATHLETICS": -2,
+
+            "DEXTERITY": kwargs["DEXTERITY"],
+            "DEX SAVE": kwargs["DEX SAVE"],
+            "ACROBATICS": kwargs["ACROBATICS"],
+            "SLEIGHT OF HAND": kwargs["SLEIGHT OF HAND"],
+            "STEALTH": kwargs["STEALTH"],
+
+            "CONSTITUTION": kwargs["CONSTITUTION"],
+            "CON SAVE": kwargs["CON SAVE"],
+
+            "INTELLIGENCE": kwargs["INTELLIGENCE"],
+            "INT SAVE": kwargs["INT SAVE"],
+            "ARCANA": kwargs["ARCANA"],
+            "INVESTIGATION": kwargs["INVESTIGATION"],
+            "HISTORY": kwargs["HISTORY"],
+            "NATURE": kwargs["NATURE"],
+            "RELIGION": kwargs["RELIGION"],
+
+            "WISDOM": kwargs["WISDOM"],
+            "WIS SAVE": kwargs["WIS SAVE"],
+            "ANIMAL HANDLING": kwargs["ANIMAL HANDLING"],
+            "INSIGHT": kwargs["INSIGHT"],
+            "PERCEPTION": kwargs["PERCEPTION"],
+            "MEDICINE": kwargs["MEDICINE"],
+            "SURVIVAL": kwargs["SURVIVAL"],
+
+            "CHARISMA": kwargs["CHARISMA"],
+            "CHA SAVE": kwargs["CHA SAVE"],
+            "DECEPTION": kwargs["DECEPTION"],
+            "INTIMIDATION": kwargs["INTIMIDATION"],
+            "PERFORMANCE": kwargs["PERFORMANCE"],
+            "PERSUASION": kwargs["PERSUASION"],
+
+            "ACTIONS": ability,
+        }
+
+        return (json.dumps(data, indent=4),)
+
+class Cl_npc_ability_json:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "action_name": ("STRING", {"default": "Generic Ability"}),
+                "action_text": ("STRING", {"multiline": True, "default": "1 ACTION: do something"}),
+                "action_flavor": ("STRING", {"multiline": True, "default": "An actor can perform actions"}),
+            },
+            "optional": {
+                "abilities_in": ("STRING", {"forceInput": True}),
+            }
+        }
+
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("abilities_out",)
+    FUNCTION = "append_ability"
+    CATEGORY = C_S_CATEGORY
+
+    def append_ability(self, action_name, action_text, action_flavor, abilities_in=None):
+        ability = {
+            "s_name": action_name,
+            "s_text": action_text,
+            "s_flavor": action_flavor
+        }
+
+        # If no input, start new list
+        if abilities_in is None or abilities_in == "":
+            abilities = []
+        else:
+            try:
+                abilities = json.loads(abilities_in)
+            except:
+                abilities = []
+
+        abilities.append(ability)
+
+        return (json.dumps(abilities, indent=4),)
