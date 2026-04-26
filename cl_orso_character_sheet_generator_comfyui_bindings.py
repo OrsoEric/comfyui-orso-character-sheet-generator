@@ -97,79 +97,79 @@ class Cl_npc_json:
     def INPUT_TYPES(cls):
         d_required = {
             # Core identity
-            "name": ("STRING", {"default": "Garetto Von Garra"}),
-            "race": ("STRING", {"default": "Human Fallen Noble (Major)"}),
+            "name": ("STRING", {"default": "Olivia Prezzo"}),
+            "race": ("STRING", {"default": "Halfling - Lightfoot"}),
 
             # Stats
-            "cr": ("STRING", {"default": "1/2"}),
-            "hp": ("INT", {"default": 20, "min": 1, "max": 999}),
-            "ac": ("INT", {"default": 12, "min": 0, "max": 50}),
-            "speed": ("STRING", {"default": "Walk: 6[SQ]"}),
+            "cr": ("STRING", {"default": "5"}),
+            "hp": ("INT", {"default":50, "min": 1, "max": 999}),
+            "ac": ("INT", {"default": 16, "min": 0, "max": 50}),
+            "speed": ("STRING", {"default": "Walk: 6sq"}),
 
             # Description & flavor
-            "image_prompt": ("STRING", {"multiline": True, "default": ""}),
-            "description": ("STRING", {"multiline": True, "default": ""}),
+            "image_prompt": ("STRING", {"multiline": True, "default": "Portrait AR1:1.5. Digital, semi-realistic painterly style that blends heroic fantasy with vibrant color palettes and detailed, textured, and shadowed rendering. Full body from head to toe. Chubby Halfling. Visible eye bags. Neutral expression. She's wearing a pointed hat and a rugged, earth‑toned robe cinched with a belt. In each hand, she holds a large glass flask—one filled with a vivid red liquid and the other with a bright green one. On her back, a alchemical refining alambic backpack with glass tubes and condensation loops with colorful liquids gurgling trough. Background is her workshop with wooden walls."}),
+            "description": ("STRING", {"multiline": True, "default": "Olivia Prezzo, a halfling woman in her forties, has become Campocestro's clandestine alchemist. Her laboratory is lined with dusty vials and ancient apparatus that glimmer with a faint blue glow despite their age. Chubby and a leg tall, her eyes perpetually rimmed with dark circles from endless nights of experimentation. She does lots of field work, and possesses an alchemical backpack to brew perishible ingredients on her gathering expeditions. The villagers hold her in high regard for her botanical expertise that saved countless crops from drought. Nobody knows why she left her prestigious job in Ironspur to come to the Ao forsaken frontier village of Campocestro"}),
 
             "resources": ("STRING", {"multiline": True, "default": "Actions: 1\nBonus Actions: 1\nReactions: 1\nLegendary Actions: 1"}),
 
-            "spellcasting": ("STRING", {"multiline": True, "default": "Spell Ability: INT\nSpell List: Wizard\nSpell MOD: +4\nSpell Save DC: 16Spell Slots: 4 | 2 | 1"}),
+            "spellcasting": ("STRING", {"multiline": True, "default": "Spell ability: INT\nSpell List: Wizard (Alchemist)\nSpell Bonus: +5\nSpell Save DC: 16\nSpell Slots: 5, 3, 1"}),
 
             # Combat traits
-            "immunity": ("STRING", {"default": "charm"}),
-            "resistance": ("STRING", {"default": "Pierce"}),
-            "weakness": ("STRING", {"default": "Blunt, Fire"}),
+            "immunity": ("STRING", {"default": "Poison"}),
+            "resistance": ("STRING", {"default": "Acid"}),
+            "weakness": ("STRING", {"default": "Holy, Blunt, Fire"}),
 
             # Meta
             "proficiency": ("INT", {"default": 3, "min": -10, "max": 10}),
-            "initiative": ("INT", {"default": -1, "min": -10, "max": 10}),
+            "initiative": ("INT", {"default": 3, "min": -10, "max": 10}),
 
             # --- STRENGTH ---
             "str_sep": ("STRING", {"default": "====== STRENGTH ======", "multiline": False}),
-            "STRENGTH": ("INT", {"default": -1, "min": -10, "max": 10}),
-            "STR SAVE": ("INT", {"default": -1, "min": -10, "max": 10}),
-            "ATHLETICS": ("INT", {"default": -2, "min": -10, "max": 20}),
+            "STRENGTH": ("INT", {"default": -2, "min": -10, "max": 10}),
+            "STR SAVE": ("INT", {"default": -2, "min": -10, "max": 10}),
+            "ATHLETICS": ("INT", {"default": -1, "min": -10, "max": 20}),
 
             # --- DEXTERITY ---
             "dex_sep": ("STRING", {"default": "====== DEXTERITY ======", "multiline": False}),
-            "DEXTERITY": ("INT", {"default": -1, "min": -10, "max": 10}),
-            "DEX SAVE": ("INT", {"default": -1, "min": -10, "max": 10}),
-            "ACROBATICS": ("INT", {"default": -1, "min": -10, "max": 20}),
-            "SLEIGHT OF HAND": ("INT", {"default": 0, "min": -10, "max": 20}),
-            "STEALTH": ("INT", {"default": -1, "min": -10, "max": 20}),
+            "DEXTERITY": ("INT", {"default": 3, "min": -10, "max": 10}),
+            "DEX SAVE": ("INT", {"default": 3, "min": -10, "max": 10}),
+            "ACROBATICS": ("INT", {"default": 3, "min": -10, "max": 20}),
+            "SLEIGHT OF HAND": ("INT", {"default": 1, "min": -10, "max": 20}),
+            "STEALTH": ("INT", {"default": 2, "min": -10, "max": 20}),
 
             # --- CONSTITUTION ---
             "con_sep": ("STRING", {"default": "====== CONSTITUTION ======", "multiline": False}),
-            "CONSTITUTION": ("INT", {"default": -1, "min": -10, "max": 10}),
-            "CON SAVE": ("INT", {"default": -1, "min": -10, "max": 10}),
+            "CONSTITUTION": ("INT", {"default": 1, "min": -10, "max": 10}),
+            "CON SAVE": ("INT", {"default": 1, "min": -10, "max": 10}),
 
             # --- INTELLIGENCE ---
             "int_sep": ("STRING", {"default": "====== INTELLIGENCE ======", "multiline": False}),
-            "INTELLIGENCE": ("INT", {"default": 2, "min": -10, "max": 10}),
-            "INT SAVE": ("INT", {"default": 2, "min": -10, "max": 10}),
-            "ARCANA": ("INT", {"default": 5, "min": -10, "max": 20}),
-            "INVESTIGATION": ("INT", {"default": 2, "min": -10, "max": 20}),
-            "HISTORY": ("INT", {"default": 5, "min": -10, "max": 20}),
-            "NATURE": ("INT", {"default": 2, "min": -10, "max": 20}),
-            "RELIGION": ("INT", {"default": 2, "min": -10, "max": 20}),
+            "INTELLIGENCE": ("INT", {"default": 5, "min": -10, "max": 10}),
+            "INT SAVE": ("INT", {"default": 8, "min": -10, "max": 10}),
+            "ARCANA": ("INT", {"default": 4, "min": -10, "max": 20}),
+            "INVESTIGATION": ("INT", {"default": 3, "min": -10, "max": 20}),
+            "HISTORY": ("INT", {"default": 2, "min": -10, "max": 20}),
+            "NATURE": ("INT", {"default": 1, "min": -10, "max": 20}),
+            "RELIGION": ("INT", {"default": 0, "min": -10, "max": 20}),
 
             # --- WISDOM ---
             "wis_sep": ("STRING", {"default": "====== WISDOM ======", "multiline": False}),
             "WISDOM": ("INT", {"default": 1, "min": -10, "max": 10}),
             "WIS SAVE": ("INT", {"default": 2, "min": -10, "max": 10}),
-            "ANIMAL HANDLING": ("INT", {"default": 4, "min": -10, "max": 20}),
-            "INSIGHT": ("INT", {"default": 1, "min": -10, "max": 20}),
-            "PERCEPTION": ("INT", {"default": -1, "min": -10, "max": 20}),
-            "MEDICINE": ("INT", {"default": 0, "min": -10, "max": 20}),
-            "SURVIVAL": ("INT", {"default": 1, "min": -10, "max": 20}),
+            "ANIMAL HANDLING": ("INT", {"default": -1, "min": -10, "max": 20}),
+            "INSIGHT": ("INT", {"default": 2, "min": -10, "max": 20}),
+            "PERCEPTION": ("INT", {"default": 3, "min": -10, "max": 20}),
+            "MEDICINE": ("INT", {"default": 5, "min": -10, "max": 20}),
+            "SURVIVAL": ("INT", {"default": 0, "min": -10, "max": 20}),
 
             # --- CHARISMA ---
             "cha_sep": ("STRING", {"default": "====== CHARISMA ======", "multiline": False}),
-            "CHARISMA": ("INT", {"default": 2, "min": -10, "max": 10}),
-            "CHA SAVE": ("INT", {"default": 5, "min": -10, "max": 10}),
-            "DECEPTION": ("INT", {"default": 5, "min": -10, "max": 20}),
-            "INTIMIDATION": ("INT", {"default": 5, "min": -10, "max": 20}),
-            "PERFORMANCE": ("INT", {"default": 2, "min": -10, "max": 20}),
-            "PERSUASION": ("INT", {"default": 2, "min": -10, "max": 20}),
+            "CHARISMA": ("INT", {"default": 0, "min": -10, "max": 10}),
+            "CHA SAVE": ("INT", {"default": 0, "min": -10, "max": 10}),
+            "DECEPTION": ("INT", {"default": 1, "min": -10, "max": 20}),
+            "INTIMIDATION": ("INT", {"default": -1, "min": -10, "max": 20}),
+            "PERFORMANCE": ("INT", {"default": -1, "min": -10, "max": 20}),
+            "PERSUASION": ("INT", {"default": -1, "min": -10, "max": 20}),
         }
 
         d_optional = {
@@ -272,9 +272,9 @@ class Cl_npc_ability_json:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "action_name": ("STRING", {"default": "Generic Ability"}),
-                "action_text": ("STRING", {"multiline": True, "default": "1 ACTION: do something"}),
-                "action_flavor": ("STRING", {"multiline": True, "default": "An actor can perform actions"}),
+                "action_name": ("STRING", {"default": "Master Alchemist"}),
+                "action_text": ("STRING", {"multiline": True, "default": "(passive) Olivia chooses an effect to add to potion she throws.\n--Venemous: Poison damage stacks and ticks at the end of the target turn, successfull CON SAVE removes one stack\n--Volatile: Acid damage affects all adjacent targets and objects\n--Corrosive: target AC is reduced by 1"}),
+                "action_flavor": ("STRING", {"multiline": True, "default": "The knowledge that allow Olivia to proficiently heal people with her concoctions, is equally as effective in turning cococtions deadly"}),
             },
             "optional": {
                 "abilities_in": ("STRING", {"forceInput": True}),

@@ -1,7 +1,7 @@
 [project]
 name = "orso-character-sheet-generator"
 description = "Nodes to create D&D5E NPC character sheets"
-version = "1.0.0"
+version = "1.2.0"
 license = "MIT" 
 # classifiers = [
 #     # For OS-independent nodes (works on all operating systems)
