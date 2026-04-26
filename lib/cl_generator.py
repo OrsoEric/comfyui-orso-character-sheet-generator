@@ -98,6 +98,9 @@ class Cl_npc_character_sheet_generator:
             i_dot_per_inch = self.g_n_dots_per_inch
         )
 
+        #s_node_root_folder = Path(__file__).resolve().parent.parent
+        #print(f"D&D Generator Parent Directory {s_node_root_folder}")
+
         self.s_font_bold_path = self.g_s_comfy_root / convert_to_path(["font","CormorantGaramond-BoldItalic.ttf"])
         print(f"loading font from node font folder: >{self.s_font_bold_path}<")
 
@@ -733,11 +736,16 @@ class Cl_npc_character_sheet_generator:
         #----------------------------------------------------------------------
         #   LOAD JSON LAYOUT
         #----------------------------------------------------------------------
-        st_layout = self.load_layout_from_json(convert_to_path(i_ls_layout_file_path))
+        
+        
+        s_file_layout = self.g_s_comfy_root / i_ls_layout_file_path
+        print(f"Load D&D Layout from : {s_file_layout}")
+        st_layout = self.load_layout_from_json(s_file_layout)
 
         #----------------------------------------------------------------------
         #   LOAD NPC DATA (already provided)
         #----------------------------------------------------------------------
+        
         cl_npc = Cl_npc()
         cl_npc.g_d_npc = i_d_npc_json
         logging.debug(f"Loaded NPC from dict: {cl_npc}")
@@ -745,28 +753,36 @@ class Cl_npc_character_sheet_generator:
         #----------------------------------------------------------------------
         #   DRAW: FRONT ILLUSTRATION
         #----------------------------------------------------------------------
+        
         self.g_cl_image_card_front.draw_image(i_cl_npc_illustration, (0, 0), t_size_front)
 
         #----------------------------------------------------------------------
         #   DRAW: FRONT MASK
         #----------------------------------------------------------------------
+        
         cl_front_mask = St_image(
             i_w_card_mm=self.g_w_card_width_mm,
             i_h_card_mm=self.g_h_card_height_mm,
             i_dot_per_inch=self.g_n_dots_per_inch
         )
-        cl_front_mask.load_image(i_ls_mask_front_path)
+        
+        s_file_front = self.g_s_comfy_root / i_ls_mask_front_path
+        print(f"Load D&D Front Image : {s_file_front}")
+        cl_front_mask.load_image(s_file_front)
         self.g_cl_image_card_front.compose_image(cl_front_mask, 0.6)
 
         #----------------------------------------------------------------------
         #   DRAW: BACK MASK
         #----------------------------------------------------------------------
+        
         cl_back_mask = St_image(
             i_w_card_mm=self.g_w_card_width_mm,
             i_h_card_mm=self.g_h_card_height_mm,
             i_dot_per_inch=self.g_n_dots_per_inch
         )
-        cl_back_mask.load_image(i_ls_mask_back_path)
+        s_file_back = self.g_s_comfy_root / i_ls_mask_back_path
+        print(f"Load D&D Back Image : {s_file_back}")
+        cl_back_mask.load_image(s_file_back)
         self.g_cl_image_card_back.compose_image(cl_back_mask, 1.0)
 
         #----------------------------------------------------------------------

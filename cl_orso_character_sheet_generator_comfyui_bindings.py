@@ -30,9 +30,9 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
             "i_n_dots_per_inch": ("INT", {"default": 300, "min": 1, "step": 50}),
             "image": ("IMAGE",),
             "i_s_npc_json": ("STRING", {"multiline": True}),
-            "i_ls_layout_file_path": ("STRING", {"multiline": False, "default": "custom_nodes/comfyui-orso-character-sheet-generator/layout/npc_layout_en.json"}),
-            "i_ls_mask_front_path": ("STRING", {"multiline": False, "default": "custom_nodes/comfyui-orso-character-sheet-generator/mask/front_mask.png"}),
-            "i_ls_mask_back_path": ("STRING", {"multiline": False, "default": "custom_nodes/comfyui-orso-character-sheet-generator/mask/back_mask.png"}),
+            "i_ls_layout_file_path": ("STRING", {"multiline": False, "default": "layout/npc_layout_en.json"}),
+            "i_ls_mask_front_path": ("STRING", {"multiline": False, "default": "mask/front_mask.png"}),
+            "i_ls_mask_back_path": ("STRING", {"multiline": False, "default": "mask/back_mask.png"}),
         }
 
         #d_optional = {}
@@ -59,6 +59,9 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
         i_ls_mask_back_path: str,
     ) -> Tuple[lib_torch.Tensor]:
     
+        s_node_root_folder = Path(__file__).resolve().parent
+        print(f"D&D Generator Parent Directory {s_node_root_folder}")
+    
         # --- Tensor → St_image ---
         st_img = St_image.from_tensor( image[0], 300 )
         print(f"Loading NPC image: {st_img}")
@@ -67,7 +70,7 @@ class Cl_orso_character_sheet_generator_comfyui_bindings:
             i_w_card_width_mm=i_w_card_width_mm,
             i_h_card_height_mm=i_h_card_height_mm,
             i_n_dots_per_inch = i_n_dots_per_inch,
-            i_s_comfy_root = "custom_nodes/comfyui-orso-character-sheet-generator",
+            i_s_comfy_root = s_node_root_folder,
             i_background_color=(255, 255, 255),
             i_border_color=(0, 0, 0)
         )
